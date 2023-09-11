@@ -13,7 +13,9 @@
 // //   title: 'Sign Up',
 // // }
 
-// export default function Register() {
+export default function Register() {
+
+  return null
 //   const [otherSelected, setOtherSelected] = useState(false);
 //   const [firstName, setFirstName] = useState(null)
 //   const [lastname, setLastName] = useState(null)
@@ -101,4 +103,4 @@
 //       </form>
 //     </SlimLayout>
 //   )
-// }
+}
