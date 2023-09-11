@@ -20,7 +20,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const name = params.idea
+  const name = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
 
   // fetch data
   const { data } = await supabase
@@ -57,14 +57,17 @@ export const revalidate = 0
 
 export default async function Idea({ params }: { params: { idea: string } }) {
 
+  const name = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
+
   const { data } = await supabase
     .from('ideas')
     .select("*, features(*), faqs(*)")
-    .eq('name', params.idea)
+    .eq('name', name)
     .limit(1)
     .single()
 
-  console.log(data)
+  // console.log(name)
+  // console.log(data)
 
   return (
     <>
