@@ -73,7 +73,7 @@ export default async function Idea({ params }: { params: { idea: string } }) {
         <Hero heroSlogan={data?.slogans} heroSecondary={data?.hero_secondary} />
         <PrimaryFeatures title={data?.primary_feature_title} description={data?.primary_feature_description} />
         <SecondaryFeatures />
-        <CallToAction />
+        <CallToAction name={data?.cta_name} text={data?.cta_text} buttonText={data?.cta_button_text} />
         {/* <Testimonials /> */}
         {/* <Pricing /> */}
         <Faqs />
