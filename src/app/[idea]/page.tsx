@@ -59,7 +59,7 @@ export default async function Idea({ params }: { params: { idea: string } }) {
 
   const { data } = await supabase
     .from('ideas')
-    .select("*")
+    .select("*, features(*)")
     .eq('name', params.idea)
     .limit(1)
     .single()

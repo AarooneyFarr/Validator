@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "db:gen_mig": "supabase db diff -f ",
-    "db:gen_types": "npx supabase gen types typescript --local  > src/lib/types/supabase.types.ts"
+    "db:gen_types": "npx supabase gen types typescript --local  > src/lib/types/supabase.types.ts",
+    "sb:copy_schema": "supabase db dump --db-url \"$OLD_DB_UR\" -f schema.sql ",
+    "sb:copy_data": "supabase db dump --db-url \"$OLD_DB_UR\" -f data.sql --data-only"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
