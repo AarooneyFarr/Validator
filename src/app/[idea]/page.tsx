@@ -47,7 +47,7 @@ export async function generateStaticParams() {
 
   return ideas?.map((idea) => ({
     idea: idea.name,
-  }))
+  })) ?? []
 }
 
 // const dynamic = 'force-dynamic'
