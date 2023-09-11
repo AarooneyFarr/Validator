@@ -34,12 +34,44 @@ export interface Database {
   }
   public: {
     Tables: {
+      faqs: {
+        Row: {
+          answer: string
+          column: number
+          id: string
+          idea: string
+          question: string
+        }
+        Insert: {
+          answer?: string
+          column?: number
+          id?: string
+          idea?: string
+          question?: string
+        }
+        Update: {
+          answer?: string
+          column?: number
+          id?: string
+          idea?: string
+          question?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faqs_idea_fkey"
+            columns: ["idea"]
+            referencedRelation: "ideas"
+            referencedColumns: ["name"]
+          }
+        ]
+      }
       features: {
         Row: {
           description: string | null
           feature_type: Database["public"]["Enums"]["feature_type"]
           id: string
           idea: string | null
+          image: string | null
           summary: string | null
           title: string
         }
@@ -48,6 +80,7 @@ export interface Database {
           feature_type?: Database["public"]["Enums"]["feature_type"]
           id?: string
           idea?: string | null
+          image?: string | null
           summary?: string | null
           title?: string
         }
@@ -56,6 +89,7 @@ export interface Database {
           feature_type?: Database["public"]["Enums"]["feature_type"]
           id?: string
           idea?: string | null
+          image?: string | null
           summary?: string | null
           title?: string
         }
@@ -71,8 +105,11 @@ export interface Database {
       ideas: {
         Row: {
           created_at: string | null
+          cta_button_text: string
+          cta_name: string
           cta_text: string
           faq_title: string
+          faqs_description: string
           hero_secondary: string
           name: string
           primary_feature_description: string
@@ -83,8 +120,11 @@ export interface Database {
         }
         Insert: {
           created_at?: string | null
+          cta_button_text?: string
+          cta_name?: string
           cta_text?: string
           faq_title?: string
+          faqs_description?: string
           hero_secondary?: string
           name: string
           primary_feature_description?: string
@@ -95,8 +135,11 @@ export interface Database {
         }
         Update: {
           created_at?: string | null
+          cta_button_text?: string
+          cta_name?: string
           cta_text?: string
           faq_title?: string
+          faqs_description?: string
           hero_secondary?: string
           name?: string
           primary_feature_description?: string

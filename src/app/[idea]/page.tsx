@@ -59,24 +59,24 @@ export default async function Idea({ params }: { params: { idea: string } }) {
 
   const { data } = await supabase
     .from('ideas')
-    .select("*, features(*)")
+    .select("*, features(*), faqs(*)")
     .eq('name', params.idea)
     .limit(1)
     .single()
 
-  // console.log(data)
+  console.log(data)
 
   return (
     <>
       <Header title={data?.name} />
       <main>
         <Hero heroSlogan={data?.slogans} heroSecondary={data?.hero_secondary} />
-        <PrimaryFeatures title={data?.primary_feature_title} description={data?.primary_feature_description} />
-        <SecondaryFeatures />
+        <PrimaryFeatures title={data?.primary_feature_title} description={data?.primary_feature_description} features={data?.features} />
+        <SecondaryFeatures title={data?.secondary_feature_title} description={data?.secondary_feature_description} features={data?.features} />
         <CallToAction />
         {/* <Testimonials /> */}
         {/* <Pricing /> */}
-        <Faqs />
+        <Faqs title={data?.faq_title} description={data?.faqs_description} faqs={data?.faqs} />
       </main>
       <Footer />
     </>
