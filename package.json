@@ -6,19 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:gen_mig": "supabase db diff -f ",
+    "db:gen_types": "npx supabase gen types typescript --local  > src/lib/types/supabase.types.ts"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@headlessui/tailwindcss": "^0.2.0",
+    "@supabase/auth-helpers-nextjs": "^0.7.4",
+    "@supabase/supabase-js": "^2.33.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "20.4.6",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "^10.4.12",
     "clsx": "^1.2.1",
-    "next": "13.4.16",
+    "next": "^13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "^3.3.3",
@@ -29,6 +33,7 @@
     "eslint-config-next": "13.4.16",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.5.2",
-    "sharp": "^0.32.0"
+    "sharp": "^0.32.0",
+    "supabase": "^1.93.0"
   }
 }

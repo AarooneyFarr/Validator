@@ -39,7 +39,7 @@ const features = [
   },
 ]
 
-export function PrimaryFeatures() {
+export function PrimaryFeatures({ title, description, featuresy }: { title?: string, description?: string, featuresy?: any }) {
   let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>(
     'horizontal',
   )

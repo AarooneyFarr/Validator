@@ -7,8 +7,10 @@ import { Pricing } from '@/components/Pricing'
 import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Testimonials } from '@/components/Testimonials'
+import { supabase } from '../lib/supabase/supabase'
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <>
       <Header />
@@ -17,8 +19,8 @@ export default function Home() {
         <PrimaryFeatures />
         <SecondaryFeatures />
         <CallToAction />
-        <Testimonials />
-        <Pricing />
+        {/* <Testimonials /> */}
+        {/* <Pricing /> */}
         <Faqs />
       </main>
       <Footer />
