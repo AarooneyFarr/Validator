@@ -105,7 +105,7 @@ export function Header({ title }: { title?: string }) {
           <div className="flex items-center md:gap-x-12">
             <Link className='flex flex-row' href="#" aria-label="Home">
               <Logo className="h-10 w-auto" />
-              <span className=' font-display font-bold text-3xl ml-2'>{title ?? "Title not set"}</span>
+              <span className=' font-display font-bold text-3xl ml-2'>{title ?? "Taxpal"}</span>
               <span className='my-auto ml-2 h-min inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/20'>beta</span>
             </Link>
             <div className="hidden md:flex md:gap-x-6">
