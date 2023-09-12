@@ -34,6 +34,43 @@ export interface Database {
   }
   public: {
     Tables: {
+      contacts: {
+        Row: {
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          idea: string
+          last_name: string
+          source: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          idea: string
+          last_name?: string
+          source?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          idea?: string
+          last_name?: string
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contacts_idea_fkey"
+            columns: ["idea"]
+            referencedRelation: "ideas"
+            referencedColumns: ["name"]
+          }
+        ]
+      }
       faqs: {
         Row: {
           answer: string
