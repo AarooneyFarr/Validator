@@ -8,6 +8,7 @@ import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase } from '@/lib/supabase/supabase'
 
 // export const metadata: Metadata = {
 //   title: 'Sign Up',
@@ -16,8 +17,25 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 export default function Register() {
   const [source, setSource] = useState<string | null>(null);
   const [firstName, setFirstName] = useState(null)
-  const [lastname, setLastName] = useState(null)
+  const [lastName, setLastName] = useState(null)
   const [email, setEmail] = useState(null)
+
+  async function updateProfile({ firstName, lastName, email, source }: {firstName?: string, lastName?: string, email?: string, source?: string}) {
+    let subDomain = window.location.hostname.split(".")[0]
+    try {
+      let { error } = await supabase.from(subDomain).insert({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        source: source
+      })
+      if (error) throw error
+      alert('Thank you!')
+    } catch (error) {
+      alert('Error adding data')
+      console.error(error)
+    }
+  }
 
   return (
     <SlimLayout>
@@ -87,7 +105,8 @@ export default function Register() {
         }
         {/* </div> */}
         <div className="col-span-full">
-          <Button type="submit" variant="solid" color="blue" className="w-full">
+          <Button type="submit" variant="solid" color="blue" className="w-full"
+          onClick={() => updateProfile({firstName, lastName, email, source})}>
             <span>
               Sign up <span aria-hidden="true">&rarr;</span>
             </span>
