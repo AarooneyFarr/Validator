@@ -45,16 +45,16 @@ export async function generateMetadata(
   }
 }
 
-export async function generateStaticParams() {
-  const { data: ideas } = await supabase.from('ideas').select("*")
+// export async function generateStaticParams() {
+//   const { data: ideas } = await supabase.from('ideas').select("*")
 
-  return ideas?.map((idea) => ({
-    idea: idea.name,
-  })) ?? []
-}
+//   return ideas?.map((idea) => ({
+//     idea: idea.name,
+//   }))
+// }
 
 // const dynamic = 'force-dynamic'
-// export const revalidate = 0
+export const revalidate = 0
 
 
 
