@@ -9,6 +9,7 @@ import { type Metadata } from 'next'
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { supabase } from '@/lib/supabase/supabase'
+import { v4 } from "uuid";
 
 // export const metadata: Metadata = {
 //   title: 'Sign Up',
@@ -16,24 +17,36 @@ import { supabase } from '@/lib/supabase/supabase'
 
 export default function Register() {
   const [source, setSource] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState(null)
-  const [lastName, setLastName] = useState(null)
-  const [email, setEmail] = useState(null)
+  const [firstName, setFirstName] = useState<string | null>(null)
+  const [lastName, setLastName] = useState<string | null>(null)
+  const [email, setEmail] = useState<string | null>(null)
 
-  async function updateProfile({ firstName, lastName, email, source }: {firstName?: string, lastName?: string, email?: string, source?: string}) {
+  // let source: string = '';
+  // let firstName: string = '';
+  // let lastName: string = '';
+  // let email: string = '';
+
+  async function updateProfile({ firstName, lastName, email, source }: {firstName?: string | null, lastName?: string | null, email?: string | null, source?: string | null}) {
     let subDomain = window.location.hostname.split(".")[0]
+    
+
     try {
-      let { error } = await supabase.from(subDomain).insert({
-        firstName: firstName,
-        lastName: lastName,
+      //TODO: may need to change field names and the database name depending on the actual live table
+      let { error } = await supabase.from('contacts').insert({
+        id: v4(),
+        idea: subDomain,
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         source: source
       })
-      if (error) throw error
+      // There's a weird "can't fetch" error that's occuring with an empty error code, so I'm filtering it out
+      // because posting to the database still works if that error is present...
+      if (error && error.code !== "") throw error
       alert('Thank you!')
     } catch (error) {
-      alert('Error adding data')
       console.error(error)
+      alert('Error adding data')
     }
   }
 
@@ -67,6 +80,8 @@ export default function Register() {
           type="text"
           autoComplete="given-name"
           required
+          onChange={(e) => setFirstName(e.target.value)}
+        //   onChange={(e) => firstName = e.target.value}
         />
         <TextField
           label="Last name"
@@ -74,6 +89,7 @@ export default function Register() {
           type="text"
           autoComplete="family-name"
           required
+          onChange={(e) => setLastName(e.target.value)}
         />
         <TextField
           className="col-span-full"
@@ -82,6 +98,7 @@ export default function Register() {
           type="email"
           autoComplete="email"
           required
+          onChange={(e) => setEmail(e.target.value)}
         />
         <SelectField
           className="col-span-full"
@@ -89,6 +106,7 @@ export default function Register() {
           name="referral_source"
           onChange={(e) => setSource(e.target.value)}
         >
+          <option></option>
           <option>Facebook</option>
           <option>Instagram</option>
           <option>Reddit</option>
@@ -96,12 +114,20 @@ export default function Register() {
           <option>Other</option>
         </SelectField>
         {/* <div className="col-span-full"> */}
-        {source == 'Other' &&
+        {source == 'Other' || 
+        (source !== null && 
+        source !== "" &&
+        source !== "Facebook" && 
+        source !== "Instagram" && 
+        source !== "Reddit" && 
+        source !== "Google") ? (
           <TextField
             className="col-span-full"
             label="Other source"
             type="text"
+            onChange={(e) => setSource(e.target.value)}
           />
+        ): null
         }
         {/* </div> */}
         <div className="col-span-full">
