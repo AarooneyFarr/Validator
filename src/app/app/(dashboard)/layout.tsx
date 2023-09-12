@@ -33,6 +33,8 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
     const supabase = createServerComponentClient<Database>({
         cookies,
