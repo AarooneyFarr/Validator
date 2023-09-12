@@ -7,6 +7,8 @@ import { Hero } from "../../components/Hero"
 import { PrimaryFeatures } from "../../components/PrimaryFeatures"
 import { SecondaryFeatures } from "../../components/SecondaryFeatures"
 import { supabase } from "../../lib/supabase/supabase"
+import { notFound } from "next/navigation";
+
 
 
 
@@ -31,11 +33,12 @@ export async function generateMetadata(
     .single()
 
   // optionally access and extend (rather than replace) parent metadata
+  const uppercaseName = name.charAt(0).toUpperCase() + name.slice(1)
 
 
 
   return {
-    title: name + ' | ' + data?.slogans[0],
+    title: uppercaseName + ' | ' + data?.slogans[0],
     // openGraph: {
     //   images: ['/some-specific-page-image.jpg', ...previousImages],
     // },
@@ -58,20 +61,23 @@ export async function generateStaticParams() {
 export default async function Idea({ params }: { params: { idea: string } }) {
 
   const name = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
+  const uppercaseName = name.charAt(0).toUpperCase() + name.slice(1)
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('ideas')
     .select("*, features(*), faqs(*)")
     .eq('name', name)
     .limit(1)
     .single()
 
+  if (!data) return notFound();
+
   // console.log(name)
   // console.log(data)
 
   return (
     <>
-      <Header title={data?.name} />
+      <Header title={uppercaseName} />
       <main>
         <Hero heroSlogan={data?.slogans} heroSecondary={data?.hero_secondary} />
         <PrimaryFeatures title={data?.primary_feature_title} description={data?.primary_feature_description} features={data?.features} />

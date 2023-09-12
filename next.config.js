@@ -8,6 +8,18 @@ const nextConfig = {
         port: '',
         //   pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'sb03.app',
+        port: '',
+        //   pathname: '/account123/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gravatar.com',
+        port: '',
+        //   pathname: '/account123/**',
+      },
     ],
   },
 }
