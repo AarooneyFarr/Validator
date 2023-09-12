@@ -1,7 +1,7 @@
 'use client'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import React from 'react'
-import { Database } from '../lib/types/supabase.types'
+import { Database } from '../lib/types/supabase-generated.types'
 import { useRouter } from 'next/navigation'
 
 

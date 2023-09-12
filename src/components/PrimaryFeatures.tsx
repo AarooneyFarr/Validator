@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
@@ -11,6 +11,7 @@ import screenshotExpenses from '@/images/screenshots/expenses.png'
 import screenshotPayroll from '@/images/screenshots/payroll.png'
 import screenshotReporting from '@/images/screenshots/reporting.png'
 import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
+import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 
 // const features = [
 //   {
@@ -49,7 +50,7 @@ type Features = {
   image: string | null;
 }[] | undefined
 
-export function PrimaryFeatures({ title, description, features }: { title?: string, description?: string, features?: Features }) {
+export function PrimaryFeatures({ title, description, features, isEditing, updatePrimaryFeaturesFn }: { title?: string, description?: string, features?: Features, isEditing?: boolean, updatePrimaryFeaturesFn?: React.Dispatch<React.SetStateAction<PageData>> }) {
   let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>(
     'horizontal',
   )
@@ -71,6 +72,28 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
 
   const sortedFeatures = features?.sort((a, b) => (a.feature_type == 'primary') ? -1 : 1)
 
+  const handleUpdate = (e: ChangeEvent<HTMLInputElement>, index?: number) => {
+    try {
+      if (!updatePrimaryFeaturesFn) throw new Error('updateTitleFn not defined, cannot edit')
+      if (!isEditing) throw new Error('Cannot edit this component')
+
+      // ? If index is defined, update the corresponding slogan, otherwise update the secondary hero text
+      if (typeof index == 'number') {
+        updatePrimaryFeaturesFn((prev) => {
+          prev.slogans[index] = e.target.value.toLowerCase()
+          prev.slogans[0] = prev.slogans[1] + " " + prev.slogans[2] + " " + prev.slogans[3]
+          return ({ ...prev, slogans: prev.slogans })
+        })
+      }
+      else {
+        updatePrimaryFeaturesFn((prev) => ({ ...prev, hero_secondary: e.target.value }))
+      }
+    } catch (error) {
+      throw error
+    }
+
+  }
+
   return (
     <section
       id="features"
@@ -88,7 +111,18 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-            {title ?? 'Everything you need to run your books.'}
+            {!isEditing && (title ?? 'Everything you need to run your books.')}
+            {isEditing &&
+              <input
+                type="text"
+                name="length"
+                id="length"
+                value={title}
+                onChange={handleUpdate}
+                className=' font-display font-bold text-3xl ml-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              />
+
+            }
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
             {description ?? 'Well everything you need if you aren\'t that picky about minor details like tax compliance.'}
