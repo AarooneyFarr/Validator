@@ -11,7 +11,7 @@ import screenshotExpenses from '@/images/screenshots/expenses.png'
 import screenshotPayroll from '@/images/screenshots/payroll.png'
 import screenshotReporting from '@/images/screenshots/reporting.png'
 import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
-import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
+import { PageData } from '../app/(AdminPanel)/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 
 // const features = [
 //   {

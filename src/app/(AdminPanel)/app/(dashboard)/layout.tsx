@@ -7,12 +7,12 @@ import {
     UsersIcon,
 } from '@heroicons/react/24/outline'
 import Image from "next/image";
-import { Logo } from '../../../components/Logo';
+import { Logo } from '../../../../components/Logo';
 import { ReactNode } from 'react';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '../../../lib/types/supabase-generated.types';
+import { Database } from '../../../../lib/types/supabase-generated.types';
 import { cookies } from 'next/headers';
-import SignOutButton from '../../../components/SignOutButton';
+import SignOutButton from '../../../../components/SignOutButton';
 import NavBarIdeas from './_components/NavBarIdeas';
 
 

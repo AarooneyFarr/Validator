@@ -8,8 +8,8 @@ import { Footer } from '@/components/Footer'
 import { Hero } from '@/components/Hero'
 import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
-import { Tables } from '../../../../../../../../lib/types/supabase.types'
-import { capitalize } from '../../../../../../../../lib/utils'
+import { Tables } from '../../../../../../../../../lib/types/supabase.types'
+import { capitalize } from '../../../../../../../../../lib/utils'
 
 export type PageData =
     Tables<'ideas'> &

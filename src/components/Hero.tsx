@@ -8,7 +8,7 @@ import logoStatamic from '@/images/logos/statamic.svg'
 import logoStaticKit from '@/images/logos/statickit.svg'
 import logoTransistor from '@/images/logos/transistor.svg'
 import logoTuple from '@/images/logos/tuple.svg'
-import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
+import { PageData } from '../app/(AdminPanel)/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 import { ChangeEvent } from 'react'
 
 export function Hero({ heroSlogan, heroSecondary, isEditing, updateHeroFn }: { heroSlogan?: string[], heroSecondary?: string, isEditing?: boolean, updateHeroFn?: React.Dispatch<React.SetStateAction<PageData>> }) {
