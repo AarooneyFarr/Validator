@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'sb03.app',
+        hostname: '*.sb03.app',
         port: '',
         //   pathname: '/account123/**',
       },

@@ -9,7 +9,7 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
-import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
+import { PageData } from '../app/(AdminPanel)/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 
 function MobileNavLink({
   href,

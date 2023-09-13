@@ -1,9 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import React, { Suspense } from 'react'
-import { Database } from '../../../../lib/types/supabase-generated.types';
-import LoadingDots from '../../../../components/icons/loading-dots';
-import { capitalize } from '../../../../lib/utils';
+import { Database } from '../../../../../lib/types/supabase-generated.types';
+import LoadingDots from '../../../../../components/icons/loading-dots';
+import { capitalize } from '../../../../../lib/utils';
 
 
 function classNames(...classes: any) {
@@ -29,7 +29,7 @@ const NavBarIdeas = async () => {
                     {ideas.map((idea) => (
                         <li key={idea.name}>
                             <a
-                                href={'/site/' + idea.name + '/settings/appearance'}
+                                href={'/site/' + idea.name}
                                 // TODO update styling to reflect if one of the ideas is currently selected
                                 className={classNames(
                                     false ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800',

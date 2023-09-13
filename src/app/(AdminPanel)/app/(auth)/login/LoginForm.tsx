@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
-import { Database } from '../../../../lib/types/supabase-generated.types';
+import { Database } from '../../../../../lib/types/supabase-generated.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { toast } from 'react-toastify';
 

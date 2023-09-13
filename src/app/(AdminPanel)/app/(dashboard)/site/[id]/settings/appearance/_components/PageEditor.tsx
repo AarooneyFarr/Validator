@@ -8,8 +8,8 @@ import { Footer } from '@/components/Footer'
 import { Hero } from '@/components/Hero'
 import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
-import { Tables } from '../../../../../../../../lib/types/supabase.types'
-import { capitalize } from '../../../../../../../../lib/utils'
+import { Tables } from '../../../../../../../../../lib/types/supabase.types'
+import { capitalize } from '../../../../../../../../../lib/utils'
 
 export type PageData =
     Tables<'ideas'> &
@@ -59,7 +59,7 @@ const defaultPage: PageData = {
 
 const PageEditor = ({ pageData }: { pageData?: PageData }) => {
     const [pageInfo, setPageInfo] = useState<PageData>(pageData ?? defaultPage)
-    const [isEditing, setIsEditing] = useState(true)
+    const [isEditing, setIsEditing] = useState(false)
 
     return (
         <>

@@ -1,8 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import React, { Suspense } from 'react'
-import { Database } from '../../../../../../../lib/types/supabase-generated.types';
-import LoadingDots from '../../../../../../../components/icons/loading-dots';
+import { Database } from '../../../../../../../../lib/types/supabase-generated.types';
+import LoadingDots from '../../../../../../../../components/icons/loading-dots';
 import { notFound } from 'next/navigation';
 import PageEditor from './_components/PageEditor';
 
