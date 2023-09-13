@@ -66,7 +66,7 @@ const PageEditor = ({ pageData }: { pageData?: PageData }) => {
             <Header title={capitalize(pageInfo.name)} isEditing={isEditing} updateTitleFn={setPageInfo} />
             <main>
                 <Hero heroSlogan={pageInfo?.slogans} heroSecondary={pageInfo?.hero_secondary} isEditing={isEditing} updateHeroFn={setPageInfo} />
-                <PrimaryFeatures title={pageInfo?.primary_feature_title} description={pageInfo?.primary_feature_description} features={pageInfo?.features} />
+                <PrimaryFeatures title={pageInfo?.primary_feature_title} description={pageInfo?.primary_feature_description} features={pageInfo?.features} isEditing={isEditing} updatePrimaryFeaturesFn={setPageInfo} />
                 <SecondaryFeatures title={pageInfo?.secondary_feature_title} description={pageInfo?.secondary_feature_description} features={pageInfo?.features} />
                 <CallToAction name={pageInfo?.cta_name} text={pageInfo?.cta_text} buttonText={pageInfo?.cta_button_text} />
                 {/* <Testimonials /> */}

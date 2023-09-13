@@ -72,7 +72,7 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
 
   const sortedFeatures = features?.sort((a, b) => (a.feature_type == 'primary') ? -1 : 1)
 
-  const handleUpdate = (e: ChangeEvent<HTMLInputElement>, index?: number) => {
+  const handleUpdate = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>, index?: number) => {
     try {
       if (!updatePrimaryFeaturesFn) throw new Error('updateTitleFn not defined, cannot edit')
       if (!isEditing) throw new Error('Cannot edit this component')
@@ -119,13 +119,24 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                 id="length"
                 value={title}
                 onChange={handleUpdate}
-                className=' font-display font-bold text-3xl ml-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              className=' block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
               />
 
             }
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
-            {description ?? 'Well everything you need if you aren\'t that picky about minor details like tax compliance.'}
+            {!isEditing && (description ?? 'Well everything you need if you aren\'t that picky about minor details like tax compliance.')}
+            {isEditing &&
+              <input
+                type="text"
+                name="length"
+                id="length"
+                value={description}
+                onChange={handleUpdate}
+                className=' block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              />
+
+            }
           </p>
         </div>
         <Tab.Group
@@ -142,7 +153,7 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
 
                     return (
                     <div
-                      key={feature.title}
+                        key={feature.id}
                       className={clsx(
                         'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
                         selectedIndex === featureIndex
@@ -160,10 +171,22 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                           )}
                         >
                           <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
-                          {feature.title}
+                            {!isEditing && feature.title}
+                            {isEditing &&
+                              <input
+                                type="text"
+                                name="length"
+                                id="length"
+                                value={feature.title}
+                                onChange={handleUpdate}
+                                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                              />
+
+                            }
                         </Tab>
                       </h3>
-                      <p
+                        {!isEditing && 
+                          <p
                         className={clsx(
                           'mt-2 hidden text-sm lg:block',
                           selectedIndex === featureIndex
@@ -172,7 +195,17 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                         )}
                       >
                           {feature.summary}
-                      </p>
+                          </p>
+                        }
+                        {isEditing &&
+                          <textarea
+                            className="w-full h-16 xs:h-32 p-2 border border-gray-300 rounded-md resize-none"
+                            rows={4}
+                            cols={50}
+                            value={feature.summary ?? ''}
+                            onChange={(e) => handleUpdate(e)}
+                          />
+                        }
                     </div>
                     )
                   })}
@@ -200,6 +233,17 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                         priority
                         sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                       />
+                        {isEditing &&
+                          <input
+                            type="text"
+                            name="length"
+                            id="length"
+                            value={feature.image ?? ''}
+                            onChange={handleUpdate}
+                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                          />
+
+                        }
                     </div>
                   </Tab.Panel>
                   )
