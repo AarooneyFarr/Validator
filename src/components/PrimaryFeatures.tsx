@@ -73,8 +73,8 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
   const sortedFeatures = features?.sort((a, b) => {
     let sortNumber = (a.id > b.id) ? 1 : -1
 
-    if (a.feature_type == 'primary' && b.feature_type == 'secondary') sortNumber = 1
-    if (a.feature_type == 'secondary' && b.feature_type == 'primary') sortNumber = -1
+    if (a.feature_type == 'primary' && b.feature_type == 'secondary') sortNumber = -1
+    if (a.feature_type == 'secondary' && b.feature_type == 'primary') sortNumber = 1
 
 
 
@@ -160,6 +160,13 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
     }
 
   }
+
+  const imageUrls = [
+    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1522881193457-37ae97c905bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1488998527040-85054a85150e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+
+  ]
 
   return (
     <section
@@ -281,7 +288,7 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                 </Tab.List>
               </div>
               <Tab.Panels className="lg:col-span-7">
-                {sortedFeatures?.map((feature) => {
+                {sortedFeatures?.map((feature, index) => {
                   if (feature.feature_type == 'secondary') return
 
                   return (
@@ -293,12 +300,12 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                       </p>
                     </div>
                     <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                      <Image
+                        <Image
                         className="w-full"
                           width={500}
                           height={500}
-                          src={feature.image ?? 'https://images.unsplash.com/photo-1604478373812-0ef15d185d90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGFwcHxlbnwwfDB8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60'}
-                          alt=""
+                          src={feature.image ?? imageUrls[index]}
+                          alt=''
                         priority
                         sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                       />
