@@ -9,7 +9,6 @@ import { type Metadata } from 'next'
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { supabase } from '@/lib/supabase/supabase'
-import { v4 } from "uuid";
 
 // export const metadata: Metadata = {
 //   title: 'Sign Up',
@@ -31,15 +30,17 @@ export default function Register() {
     
 
     try {
+    if(!firstName || !lastName || !email || !source) throw new Error("All data fields must be defined")
+
       //TODO: may need to change field names and the database name depending on the actual live table
       let { error } = await supabase.from('contacts').insert({
-        id: v4(),
         idea: subDomain,
         first_name: firstName,
         last_name: lastName,
         email: email,
         source: source
       })
+
       // There's a weird "can't fetch" error that's occuring with an empty error code, so I'm filtering it out
       // because posting to the database still works if that error is present...
       if (error && error.code !== "") throw error
@@ -52,6 +53,10 @@ export default function Register() {
 
   return (
     <SlimLayout>
+      <meta
+  name="format-detection"
+  content="telephone=no, date=no, email=no, address=no"
+/>
       <div className="flex">
         <Link href="/" aria-label="Home">
           <Logo className="h-10 w-auto" />

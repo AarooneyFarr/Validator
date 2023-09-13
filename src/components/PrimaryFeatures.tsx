@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
@@ -11,6 +11,7 @@ import screenshotExpenses from '@/images/screenshots/expenses.png'
 import screenshotPayroll from '@/images/screenshots/payroll.png'
 import screenshotReporting from '@/images/screenshots/reporting.png'
 import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
+import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 
 // const features = [
 //   {
@@ -49,7 +50,7 @@ type Features = {
   image: string | null;
 }[] | undefined
 
-export function PrimaryFeatures({ title, description, features }: { title?: string, description?: string, features?: Features }) {
+export function PrimaryFeatures({ title, description, features, isEditing, updatePrimaryFeaturesFn }: { title?: string, description?: string, features?: Features, isEditing?: boolean, updatePrimaryFeaturesFn?: React.Dispatch<React.SetStateAction<PageData>> }) {
   let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>(
     'horizontal',
   )
@@ -69,7 +70,96 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
     }
   }, [])
 
-  const sortedFeatures = features?.sort((a, b) => (a.feature_type == 'primary') ? -1 : 1)
+  const sortedFeatures = features?.sort((a, b) => {
+    let sortNumber = (a.id > b.id) ? 1 : -1
+
+    if (a.feature_type == 'primary' && b.feature_type == 'secondary') sortNumber = 1
+    if (a.feature_type == 'secondary' && b.feature_type == 'primary') sortNumber = -1
+
+
+
+    return sortNumber
+  })
+
+  /**
+   * 1 = title
+   * 2 = description
+   * 3 = feature title
+   * 4 = feature summary
+   * 5 = feature image link
+   *
+   * @param {(ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>)} e
+   * @param {number} [index] This corresponds to which item is being updated
+   * @param {string} id This is the id of the feature being edited, if it is editing a feature
+   * 
+   */
+  const handleUpdate = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>, index: number, id?: string) => {
+    try {
+      if (!updatePrimaryFeaturesFn) throw new Error('updateTitleFn not defined, cannot edit')
+      if (!isEditing) throw new Error('Cannot edit this component')
+      if (!index) throw new Error('No index defined')
+
+      // ? If index is defined, update the corresponding slogan, otherwise update the secondary hero text
+      if (index == 1) {
+        updatePrimaryFeaturesFn((prev) => ({ ...prev, secondary_feature_title: e.target.value }))
+      }
+      else if (index == 2) {
+        updatePrimaryFeaturesFn((prev) => ({ ...prev, secondary_feature_description: e.target.value }))
+      }
+      else if (index == 3) {
+        updatePrimaryFeaturesFn((prev) => {
+          const newArray = prev.features
+          const updateItem = newArray.find((feature) => feature.id === id)
+
+          if (updateItem) updateItem.title = e.target.value;
+          else throw new Error('Update item not found')
+
+          const finalArray = prev.features.filter((feature) => feature.id != id)
+          finalArray.push(updateItem)
+
+
+          return ({ ...prev, features: finalArray })
+        })
+      }
+      else if (index == 4) {
+        updatePrimaryFeaturesFn((prev) => {
+          const newArray = prev.features
+          const updateItem = newArray.find((feature) => feature.id === id)
+
+          if (updateItem) updateItem.summary = e.target.value;
+          else throw new Error('Update item not found')
+
+          const finalArray = prev.features.filter((feature) => feature.id != id)
+          finalArray.push(updateItem)
+
+
+          return ({ ...prev, features: finalArray })
+        })
+      }
+      else if (index == 5) {
+        updatePrimaryFeaturesFn((prev) => {
+          const newArray = prev.features
+          const updateItem = newArray.find((feature) => feature.id === id)
+
+          if (updateItem) updateItem.image = e.target.value;
+          else throw new Error('Update item not found')
+
+          const finalArray = prev.features.filter((feature) => feature.id != id)
+          finalArray.push(updateItem)
+
+
+          return ({ ...prev, features: finalArray })
+        })
+      }
+      else {
+        throw new Error("Index not found")
+      }
+
+    } catch (error) {
+      throw error
+    }
+
+  }
 
   return (
     <section
@@ -88,10 +178,32 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-            {title ?? 'Everything you need to run your books.'}
+            {!isEditing && (title ?? 'Everything you need to run your books.')}
+            {isEditing &&
+              <input
+                type="text"
+                name="length"
+              id="PrimaryFeatureTitle"
+                value={title}
+              onChange={(e) => handleUpdate(e, 1)}
+              className=' block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              />
+
+            }
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
-            {description ?? 'Well everything you need if you aren\'t that picky about minor details like tax compliance.'}
+            {!isEditing && (description ?? 'Well everything you need if you aren\'t that picky about minor details like tax compliance.')}
+            {isEditing &&
+              <input
+                type="text"
+                name="length"
+              id="primary-feature-description"
+                value={description}
+              onChange={(e) => handleUpdate(e, 2)}
+                className=' block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              />
+
+            }
           </p>
         </div>
         <Tab.Group
@@ -108,7 +220,7 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
 
                     return (
                     <div
-                      key={feature.title}
+                        key={feature.id}
                       className={clsx(
                         'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
                         selectedIndex === featureIndex
@@ -124,12 +236,25 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
                               ? 'text-blue-600 lg:text-white'
                               : 'text-blue-100 hover:text-white lg:text-white',
                           )}
+
                         >
                           <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
-                          {feature.title}
+                            {!isEditing && feature.title}
+                            {isEditing &&
+                              <input
+                                type="text"
+                                name="length"
+                              id={"primary-features-title" + feature.id}
+                                value={feature.title}
+                              onChange={(e) => handleUpdate(e, 3, feature.id)}
+                              className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                              />
+
+                            }
                         </Tab>
                       </h3>
-                      <p
+                        {!isEditing && 
+                          <p
                         className={clsx(
                           'mt-2 hidden text-sm lg:block',
                           selectedIndex === featureIndex
@@ -138,7 +263,18 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
                         )}
                       >
                           {feature.summary}
-                      </p>
+                          </p>
+                        }
+                        {isEditing &&
+                          <textarea
+                            className="w-full h-16 xs:h-32 p-2 border border-gray-300 rounded-md resize-none"
+                            rows={4}
+                            cols={50}
+                            value={feature.summary ?? ''}
+                          id={'primary-features-summary' + feature.id}
+                          onChange={(e) => handleUpdate(e, 4, feature.id)}
+                          />
+                        }
                     </div>
                     )
                   })}
@@ -166,6 +302,17 @@ export function PrimaryFeatures({ title, description, features }: { title?: stri
                         priority
                         sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                       />
+                        {isEditing &&
+                          <input
+                            type="text"
+                            name="length"
+                          id={'primary-features-image' + feature.id}
+                            value={feature.image ?? ''}
+                          onChange={(e) => handleUpdate(e, 5, feature.id)}
+                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                          />
+
+                        }
                     </div>
                   </Tab.Panel>
                   )
