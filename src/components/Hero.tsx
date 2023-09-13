@@ -43,7 +43,7 @@ export function Hero({ heroSlogan, heroSecondary, isEditing, updateHeroFn }: { h
           <input
             type="text"
             name="length"
-            id="length"
+          id="hero-slogan-1"
             value={heroSlogan?.at(1)}
             onChange={(e) => handleUpdate(e, 1)}
             className='  rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
@@ -64,7 +64,7 @@ export function Hero({ heroSlogan, heroSecondary, isEditing, updateHeroFn }: { h
             <input
               type="text"
               name="length"
-              id="length"
+            id="hero-slogan-2"
               value={heroSlogan?.at(2)}
               onChange={(e) => handleUpdate(e, 2)}
               className=' relative rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
@@ -75,7 +75,7 @@ export function Hero({ heroSlogan, heroSecondary, isEditing, updateHeroFn }: { h
           <input
             type="text"
             name="length"
-            id="length"
+          id="hero-slogan-3"
             value={heroSlogan?.at(3)}
             onChange={(e) => handleUpdate(e, 3)}
             className=' rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
@@ -90,7 +90,7 @@ export function Hero({ heroSlogan, heroSecondary, isEditing, updateHeroFn }: { h
         <input
           type="text"
           name="length"
-          id="length"
+        id="hero-secondary"
           value={heroSecondary}
           onChange={(e) => handleUpdate(e)}
           className=' mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
