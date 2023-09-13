@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment } from 'react'
+import { ChangeEvent, Dispatch, Fragment, SetStateAction } from 'react'
 import Link from 'next/link'
 import { Popover, Transition } from '@headlessui/react'
 import clsx from 'clsx'
@@ -9,6 +9,7 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
+import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_components/PageEditor'
 
 function MobileNavLink({
   href,
@@ -97,7 +98,21 @@ function MobileNavigation() {
   )
 }
 
-export function Header({ title }: { title?: string }) {
+export function Header({ title, isEditing, updateTitleFn }: { title?: string, isEditing?: boolean, updateTitleFn?: React.Dispatch<React.SetStateAction<PageData>> }) {
+
+  const handleUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!updateTitleFn) throw new Error('updateTitleFn not defined, cannot edit')
+      if (!isEditing) throw new Error('Cannot edit this component')
+
+      updateTitleFn((prev) => ({ ...prev, name: e.target.value.toLowerCase() }))
+
+    } catch (error) {
+      throw error
+    }
+
+  }
+
   return (
     <header className="py-10">
       <Container>
@@ -105,7 +120,18 @@ export function Header({ title }: { title?: string }) {
           <div className="flex items-center md:gap-x-12">
             <Link className='flex flex-row' href="#" aria-label="Home">
               <Logo className="h-10 w-auto" />
-              <span className=' font-display font-bold text-3xl ml-2'>{title ?? "Taxpal"}</span>
+              {!isEditing && <span className=' font-display font-bold text-3xl ml-2'>{title ?? "Taxpal"}</span>}
+              {isEditing &&
+                <input
+                  type="text"
+                  name="length"
+                id="hero-title"
+                  value={title}
+                  onChange={handleUpdate}
+                  className=' font-display font-bold text-3xl ml-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                />
+
+              }
               <span className='my-auto ml-2 h-min inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/20'>beta</span>
             </Link>
             <div className="hidden md:flex md:gap-x-6">

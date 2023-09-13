@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 import type { NextRequest } from 'next/server'
-import type { Database } from '@/lib/types/supabase.types'
+import type { Database } from '@/lib/types/supabase-generated.types'
 
 export const dynamic = 'force-dynamic'
 
