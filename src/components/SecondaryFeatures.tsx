@@ -179,9 +179,16 @@ function Feature({
 }
 
 function FeaturesMobile({ title, description, features }: { title?: string, description?: string, features?: Feature[] }) {
+  const imageUrls = [
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1417733403748-83bbc7c05140?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+
+  ]
+
   return (
     <div className="-mx-4 mt-20 flex flex-col gap-y-10 overflow-hidden px-4 sm:-mx-6 sm:px-6 lg:hidden">
-      {features?.map((feature) => {
+      {features?.map((feature, index) => {
         if (feature.feature_type == 'primary') return
 
         return <div key={feature.summary}>
@@ -193,7 +200,7 @@ function FeaturesMobile({ title, description, features }: { title?: string, desc
                 height={500}
                 width={500}
                 className="w-full"
-                src={feature.image ?? ''}
+                src={feature.image ?? imageUrls[index]}
                 alt=""
                 sizes="52.75rem"
               />
@@ -206,6 +213,13 @@ function FeaturesMobile({ title, description, features }: { title?: string, desc
 }
 
 function FeaturesDesktop({ title, description, features }: { title?: string, description?: string, features?: Feature[] }) {
+  const imageUrls = [
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+    'https://images.unsplash.com/photo-1417733403748-83bbc7c05140?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80',
+
+  ]
+  
   return (
     <Tab.Group as="div" className="hidden lg:mt-20 lg:block">
       {({ selectedIndex }) => (
@@ -253,7 +267,7 @@ function FeaturesDesktop({ title, description, features }: { title?: string, des
                       height={500}
                       width={500}
                       className="w-full"
-                      src={feature.image ?? ''}
+                      src={feature.image ?? imageUrls[featureIndex]}
                       alt=""
                       sizes="52.75rem"
                     />
@@ -271,6 +285,7 @@ function FeaturesDesktop({ title, description, features }: { title?: string, des
 
 export function SecondaryFeatures({ title, description, features }: { title?: string, description?: string, features?: Feature[] }) {
   const sortedFeatures = features?.filter((feature) => feature.feature_type == "secondary")
+  
   return (
     <section
       id="secondary-features"
@@ -286,8 +301,8 @@ export function SecondaryFeatures({ title, description, features }: { title?: st
             {description ?? 'Because youd probably be a little confused if we suggested you complicate your everyday business tasks instead.'}
           </p>
         </div>
-        <FeaturesMobile title={title} description={description} features={sortedFeatures} />
-        <FeaturesDesktop title={title} description={description} features={sortedFeatures} />
+        <FeaturesMobile title={title} description={description} features={sortedFeatures}/>
+        <FeaturesDesktop title={title} description={description} features={sortedFeatures}/>
       </Container>
     </section>
   )
