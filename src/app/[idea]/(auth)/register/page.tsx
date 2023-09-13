@@ -2,19 +2,20 @@
 import Link from 'next/link'
 
 import { Button } from '@/components/Button'
-import { SelectField, TextField } from '@/components/Fields'
+import { SelectField, TextField, formClasses } from '@/components/Fields'
 import { Logo } from '@/components/Logo'
 import { SlimLayout } from '@/components/SlimLayout'
 import { type Metadata } from 'next'
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { supabase } from '@/lib/supabase/supabase'
+import { toast } from 'react-toastify'
 
 // export const metadata: Metadata = {
 //   title: 'Sign Up',
 // }
 
-export default function Register() {
+export default function Register({ params }: { params: { idea: string } }) {
   const [source, setSource] = useState<string | null>(null);
   const [firstName, setFirstName] = useState<string | null>(null)
   const [lastName, setLastName] = useState<string | null>(null)
@@ -26,28 +27,36 @@ export default function Register() {
   // let email: string = '';
 
   async function updateProfile({ firstName, lastName, email, source }: {firstName?: string | null, lastName?: string | null, email?: string | null, source?: string | null}) {
-    let subDomain = window.location.hostname.split(".")[0]
-    
+    // let subDomain = window.location.hostname.split(".")[0]
+    const name = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
 
     try {
     if(!firstName || !lastName || !email || !source) throw new Error("All data fields must be defined")
 
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const isValidEmail = emailPattern.test(email)
+
+      if(!isValidEmail) throw new Error("Please enter valid email")
+
       //TODO: may need to change field names and the database name depending on the actual live table
-      let { error } = await supabase.from('contacts').insert({
-        idea: subDomain,
+      const { error } = await supabase.from('contacts').insert({
+        idea: name,
         first_name: firstName,
         last_name: lastName,
         email: email,
         source: source
       })
 
-      // There's a weird "can't fetch" error that's occuring with an empty error code, so I'm filtering it out
-      // because posting to the database still works if that error is present...
-      if (error && error.code !== "") throw error
-      alert('Thank you!')
-    } catch (error) {
-      console.error(error)
-      alert('Error adding data')
+
+      if (error) throw error
+
+
+
+      toast.success('Submitted!')
+
+    } catch (error: any) {
+      toast.error(error.message)
+      // alert('Error adding data')
     }
   }
 
@@ -75,8 +84,7 @@ export default function Register() {
         </Link>{' '}
         to your account.
       </p>
-      <form
-        action="#"
+      <div
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"
       >
         <TextField
@@ -86,7 +94,7 @@ export default function Register() {
           autoComplete="given-name"
           required
           onChange={(e) => setFirstName(e.target.value)}
-        //   onChange={(e) => firstName = e.target.value}
+          // onChange={(e) => firstName = e.target.value}
         />
         <TextField
           label="Last name"
@@ -95,6 +103,7 @@ export default function Register() {
           autoComplete="family-name"
           required
           onChange={(e) => setLastName(e.target.value)}
+          // onChange={(e) => lastName = e.target.value}
         />
         <TextField
           className="col-span-full"
@@ -104,12 +113,44 @@ export default function Register() {
           autoComplete="email"
           required
           onChange={(e) => setEmail(e.target.value)}
+          // onChange={(e) => email = e.target.value}
         />
+        <div >
+        {/* <laı */}
+        {/* <input
+          name="first_name"
+          type="text"
+          autoComplete="given-name"
+          required
+          onChange={(e) => setFirstName(e.target.value)}
+          className={formClasses}
+        /> */}
+        </div>
+        {/* <input
+          name="last_name"
+          type="text"
+          autoComplete="family-name"
+          required
+          onChange={(e) => setLastName(e.target.value)}
+          
+          className={formClasses}
+        
+        /> */}
+        {/* <input
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+
+          className={formClasses}
+        /> */}
         <SelectField
           className="col-span-full"
           label="How did you hear about us?"
           name="referral_source"
           onChange={(e) => setSource(e.target.value)}
+          // onChange={(e) => source = e.target.value}
         >
           <option></option>
           <option>Facebook</option>
@@ -131,8 +172,9 @@ export default function Register() {
             label="Other source"
             type="text"
             onChange={(e) => setSource(e.target.value)}
+            // onChange={(e) => source = e.target.value}
           />
-        ): null
+        ) : null
         }
         {/* </div> */}
         <div className="col-span-full">
@@ -143,7 +185,7 @@ export default function Register() {
             </span>
           </Button>
         </div>
-      </form>
+      </div>
     </SlimLayout>
   )
 }

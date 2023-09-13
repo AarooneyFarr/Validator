@@ -38,7 +38,7 @@ import { PageData } from '../app/app/(dashboard)/site/[id]/settings/appearance/_
 //       'Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.',
 //     image: screenshotReporting,
 //   },
-// ]
+// ] 
 
 type Features = {
   summary: string | null;
@@ -298,7 +298,7 @@ export function PrimaryFeatures({ title, description, features, isEditing, updat
                           width={500}
                           height={500}
                           src={feature.image ?? 'https://images.unsplash.com/photo-1604478373812-0ef15d185d90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGFwcHxlbnwwfDB8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60'}
-                        alt=""
+                          alt=""
                         priority
                         sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                       />
