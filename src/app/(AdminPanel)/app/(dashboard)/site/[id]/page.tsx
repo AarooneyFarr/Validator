@@ -11,22 +11,22 @@ import {
 } from '@heroicons/react/20/solid'
 import { BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from "next/image";
-import { Logo } from '../../../../components/Logo';
-import IdeaCards from './_components/IdeaCards'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { Database } from '../../../../lib/types/supabase-generated.types';
 import { toast } from 'react-toastify';
-import RecentSignups from './_components/RecentSignups';
-import Stats from './_components/Stats';
+import { Database } from '../../../../../../lib/types/supabase-generated.types';
+import IdeaCards from '../../_components/IdeaCards';
+import RecentSignups from '../../_components/RecentSignups';
+import Stats from '../../_components/Stats';
+import { capitalize } from '../../../../../../lib/utils';
+import ContactsTable from './_components/ContactsTable';
+import ContactsTableCard from './_components/ContactsTableCard';
+import Link from 'next/link';
 
 
 
-const secondaryNavigation = [
-    // { name: 'Last 7 days', href: '#', current: true },
-    // { name: 'Last 30 days', href: '#', current: false },
-    { name: 'All-time', href: '#', current: true },
-]
+
+
 
 // const statuses = {
 //     Paid: 'text-green-700 bg-green-50 ring-green-600/20',
@@ -35,35 +35,47 @@ const secondaryNavigation = [
 // }
 
 
-export type IdeasQuery = {
+export type IdeaQuery = {
     name: string;
     created_at: string | null;
-    contacts: {
-        created_at: string | null;
-        email: string;
-        first_name: string;
-        id: string;
-        idea: string;
-        last_name: string;
-        source: string;
-    }[];
-}[] | null
+    contacts: Contact[];
+} | null
+
+export type Contact = {
+    created_at: string | null;
+    email: string;
+    first_name: string;
+    id: string;
+    idea: string;
+    last_name: string;
+    source: string;
+};
 
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ params }: { params: { id: string }; }) {
+
+
     const supabase = createServerComponentClient<Database>({
         cookies
     })
 
-    const { data: ideasData, error: contactsError } = await supabase
+    const { data: ideaData, error: contactsError } = await supabase
         .from('ideas')
         .select(`name, created_at, contacts(*)`)
+        .eq('name', params.id)
+        .limit(1)
+        .single()
 
     if (contactsError) throw contactsError
-    if (!ideasData) toast.error('Ideas not loaded properly')
+    if (!ideaData) toast.error('Ideas not loaded properly')
 
 
-
+    const secondaryNavigation = [
+        // { name: 'Last 7 days', href: '#', current: true },
+        // { name: 'Last 30 days', href: '#', current: false },
+        { name: 'Contacts', href: '/site/' + params.id, current: true },
+        { name: 'View site', href: '/site/' + params.id + '/settings/appearance', current: false },
+    ]
 
     return (
         <>
@@ -72,12 +84,12 @@ export default async function DashboardPage() {
                     {/* Secondary navigation */}
                     <header className="pb-4 pt-6 sm:pb-6">
                         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
-                            <h1 className="text-base font-semibold leading-7 text-gray-900">Validator</h1>
+                            <h1 className="text-base font-semibold leading-7 text-gray-900">{capitalize(params.id)}</h1>
                             <div className="order-last flex w-full gap-x-8 text-sm font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
                                 {secondaryNavigation.map((item) => (
-                                    <a key={item.name} href={item.href} className={item.current ? 'text-indigo-600' : 'text-gray-700'}>
+                                    <Link key={item.name} href={item.href} className={item.current ? 'text-indigo-600' : 'text-gray-700'}>
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                             {/* <a
@@ -91,7 +103,7 @@ export default async function DashboardPage() {
                     </header>
 
                     {/* Stats */}
-                    <Stats ideasData={ideasData} />
+                    {/* <Stats ideasData={ideasData} /> */}
 
                     <div
                         className="absolute left-0 top-full -z-10 mt-96 origin-top-left translate-y-40 -rotate-90 transform-gpu opacity-20 blur-3xl sm:left-1/2 sm:-ml-96 sm:-mt-10 sm:translate-y-0 sm:rotate-0 sm:transform-gpu sm:opacity-50"
@@ -107,12 +119,14 @@ export default async function DashboardPage() {
                         S</div>
                 </div>
 
-                <div className="space-y-16 py-16 xl:space-y-20">
+                <div className="space-y-16 py-16 xl:space-y-20 bg-gray-200 h-screen">
                     {/* Recent activity table */}
                     {/* <RecentSignups /> */}
 
+                    <ContactsTableCard contacts={ideaData.contacts} />
+
                     {/* Recent client list*/}
-                    <IdeaCards ideasData={ideasData} />
+                    {/* <IdeaCards ideasData={ideasData} /> */}
                 </div>
             </main>
         </>

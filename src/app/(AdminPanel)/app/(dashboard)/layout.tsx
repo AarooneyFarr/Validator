@@ -8,21 +8,31 @@ import {
 } from '@heroicons/react/24/outline'
 import Image from "next/image";
 import { Logo } from '../../../../components/Logo';
-import { ReactNode } from 'react';
+import { ForwardRefExoticComponent, ReactNode, RefAttributes, SVGProps } from 'react';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../../../../lib/types/supabase-generated.types';
 import { cookies } from 'next/headers';
 import SignOutButton from '../../../../components/SignOutButton';
 import NavBarIdeas from './_components/NavBarIdeas';
 
+type NavTypes = {
+    name: string;
+    href: string;
+    icon: ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
+        title?: string | undefined;
+        titleId?: string | undefined;
+    } & RefAttributes<SVGSVGElement>>;
+    current: boolean;
+    count?: number;
+}[]
 
-const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, count: '5', current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, count: '12', current: false },
-    { name: 'Calendar', href: '#', icon: CalendarIcon, count: '20+', current: false },
-    { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+const navigation: NavTypes = [
+    { name: 'Dashboard', href: '/', icon: HomeIcon, current: false },
+    //     { name: 'Team', href: '#', icon: UsersIcon, current: false },
+    //     { name: 'Projects', href: '#', icon: FolderIcon, count: '12', current: false },
+    //     { name: 'Calendar', href: '#', icon: CalendarIcon, count: '20+', current: false },
+    //     { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
+    //     { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
 ]
 
 

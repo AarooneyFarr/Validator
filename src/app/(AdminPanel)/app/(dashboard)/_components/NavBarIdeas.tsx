@@ -29,7 +29,7 @@ const NavBarIdeas = async () => {
                     {ideas.map((idea) => (
                         <li key={idea.name}>
                             <a
-                                href={'/site/' + idea.name + '/settings/appearance'}
+                                href={'/site/' + idea.name}
                                 // TODO update styling to reflect if one of the ideas is currently selected
                                 className={classNames(
                                     false ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800',

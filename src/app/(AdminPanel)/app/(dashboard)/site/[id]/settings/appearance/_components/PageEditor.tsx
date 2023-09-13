@@ -59,7 +59,7 @@ const defaultPage: PageData = {
 
 const PageEditor = ({ pageData }: { pageData?: PageData }) => {
     const [pageInfo, setPageInfo] = useState<PageData>(pageData ?? defaultPage)
-    const [isEditing, setIsEditing] = useState(true)
+    const [isEditing, setIsEditing] = useState(false)
 
     return (
         <>

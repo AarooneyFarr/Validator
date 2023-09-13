@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../../../../../lib/types/supabase-generated.types';
 import { cookies } from 'next/headers';
+import { IdeasQuery } from '../page';
 
 
 const clients = [
@@ -31,21 +32,9 @@ const clients = [
     },
 ]
 
-type IdeassQuery = {
-    name: string;
-    created_at: string | null;
-    contacts: {
-        created_at: string | null;
-        email: string;
-        first_name: string;
-        id: string;
-        idea: string;
-        last_name: string;
-        source: string;
-    }[];
-}[] | null
 
-const IdeaCards = ({ ideasData }: { ideasData: IdeassQuery }) => {
+
+const IdeaCards = ({ ideasData }: { ideasData: IdeasQuery }) => {
 
 
 
@@ -87,7 +76,7 @@ const IdeaCards = ({ ideasData }: { ideasData: IdeassQuery }) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href={'/site/' + idea.name}
                                                         className={classNames(
                                                             active ? 'bg-gray-50' : '',
                                                             'block px-3 py-1 text-sm leading-6 text-gray-900'
@@ -100,7 +89,7 @@ const IdeaCards = ({ ideasData }: { ideasData: IdeassQuery }) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href={"/site/" + idea.name + '/settings/appearance'}
                                                         className={classNames(
                                                             active ? 'bg-gray-50' : '',
                                                             'block px-3 py-1 text-sm leading-6 text-gray-900'
