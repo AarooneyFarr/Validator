@@ -40,6 +40,7 @@ export default function Register() {
         email: email,
         source: source
       })
+
       // There's a weird "can't fetch" error that's occuring with an empty error code, so I'm filtering it out
       // because posting to the database still works if that error is present...
       if (error && error.code !== "") throw error
