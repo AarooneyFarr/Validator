@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { supabase } from '@/lib/supabase/supabase'
 import { toast } from 'react-toastify'
+import { capitalize } from '../../../../lib/utils'
 
 // export const metadata: Metadata = {
 //   title: 'Sign Up',
@@ -21,6 +22,8 @@ export default function Register({ params }: { params: { idea: string } }) {
   const [lastName, setLastName] = useState<string | null>(null)
   const [email, setEmail] = useState<string | null>(null)
 
+  const siteName = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
+
   // let source: string = '';
   // let firstName: string = '';
   // let lastName: string = '';
@@ -28,7 +31,7 @@ export default function Register({ params }: { params: { idea: string } }) {
 
   async function updateProfile({ firstName, lastName, email, source }: {firstName?: string | null, lastName?: string | null, email?: string | null, source?: string | null}) {
     // let subDomain = window.location.hostname.split(".")[0]
-    const name = params.idea.replace('.' + process.env.NEXT_PUBLIC_ROOT_DOMAIN, '')
+
 
     try {
     if(!firstName || !lastName || !email || !source) throw new Error("All data fields must be defined")
@@ -40,7 +43,7 @@ export default function Register({ params }: { params: { idea: string } }) {
 
       //TODO: may need to change field names and the database name depending on the actual live table
       const { error } = await supabase.from('contacts').insert({
-        idea: name,
+        idea: siteName,
         first_name: firstName,
         last_name: lastName,
         email: email,
@@ -67,22 +70,25 @@ export default function Register({ params }: { params: { idea: string } }) {
   content="telephone=no, date=no, email=no, address=no"
 />
       <div className="flex">
-        <Link href="/" aria-label="Home">
+        <Link className='flex flex-row' href="/" aria-label="Home">
           <Logo className="h-10 w-auto" />
+          <span className=' font-display font-bold text-3xl ml-2'>{capitalize(siteName) ?? "Taxpal"}</span>
+          <span className='my-auto ml-2 h-min inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/20'>beta</span>
+
         </Link>
       </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">
-        Get started for free!
+        Sign up for beta now!
       </h2>
       <p className="mt-2 text-sm text-gray-700">
-        Already registered?{' '}
-        <Link
+        You know you want it
+        {/* <Link
           href="/login"
           className="font-medium text-blue-600 hover:underline"
         >
           Sign in
         </Link>{' '}
-        to your account.
+        to your account. */}
       </p>
       <div
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2"

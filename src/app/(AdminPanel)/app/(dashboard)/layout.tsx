@@ -14,6 +14,7 @@ import { Database } from '../../../../lib/types/supabase-generated.types';
 import { cookies } from 'next/headers';
 import SignOutButton from '../../../../components/SignOutButton';
 import NavBarIdeas from './_components/NavBarIdeas';
+import { classNames } from '../../../../lib/utils';
 
 type NavTypes = {
     name: string;
@@ -36,10 +37,6 @@ const navigation: NavTypes = [
 ]
 
 
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
-
 export const dynamic = 'force-dynamic'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
@@ -61,6 +58,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
                     <div className="flex h-16 shrink-0 items-center">
                         <Logo className='h-8 w-8' />
+                        <span className='text-white font-display font-extrabold text-2xl pl-2'>Validator</span>
                     </div>
                     <nav className="flex flex-1 flex-col">
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">

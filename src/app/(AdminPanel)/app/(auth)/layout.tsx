@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { Providers } from "../../../providers";
 
 export const metadata: Metadata = {
-    title: "Login | Platforms Starter Kit",
+    title: "Login | Validator",
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
