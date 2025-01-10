@@ -1,10 +1,10 @@
 # Validator
 
-Validator is a [Tailwind UI](https://tailwindui.com) site template built using [Tailwind CSS](https://tailwindcss.com) and [Next.js](https://nextjs.org).
+Validator is a templated site generator built using [Tailwind CSS](https://tailwindcss.com) and [Next.js](https://nextjs.org). It allows you to upload ideas to a supabase table, and launch an automatically generated subdomain website to start gaining validation immediately!
 
 ## Getting started
 
-To get started with this template, first install the npm dependencies:
+To get started with this, first install the npm dependencies:
 
 ```bash
 npm install
